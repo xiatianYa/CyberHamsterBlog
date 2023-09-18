@@ -1,0 +1,37 @@
+{
+  "id": "4255738",
+  "name": "管理",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "30178390",
+      "name": "笔记",
+      "font_class": "biji",
+      "unicode": "100da",
+      "unicode_decimal": 65754
+    },
+    {
+      "icon_id": "30178396",
+      "name": "标签",
+      "font_class": "biaoqian",
+      "unicode": "100db",
+      "unicode_decimal": 65755
+    },
+    {
+      "icon_id": "30178399",
+      "name": "消息",
+      "font_class": "xiaoxi",
+      "unicode": "100dc",
+      "unicode_decimal": 65756
+    },
+    {
+      "icon_id": "30178406",
+      "name": "分类",
+      "font_class": "fenlei",
+      "unicode": "100dd",
+      "unicode_decimal": 65757
+    }
+  ]
+}
