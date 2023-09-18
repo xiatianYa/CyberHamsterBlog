@@ -5,6 +5,9 @@
 
 赛博仓鼠博客(CyberHamsterBlog)，一个基于SpringBoot架构的前后端分离博客系统。Web端使用Vue + Element , 后端使用 Spring boot + mybatis-plus + redis进行开发，使用 So-Token做登录验证和权限校验，文章存储采用阿里云Oss,使用ElasticSearch作为全文检索服务,
 
+### 访问在线地址
+    前端 http://47.97.168.69/user-vue
+    后台 http://47.97.168.69/admin-vue
 ### 安装教程
 1. npm install | cnpm install(推荐)
 2. 用户:npm run serve 管理:npm run dev
