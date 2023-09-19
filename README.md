@@ -18,6 +18,7 @@
 (1)，后端 SpringBoot + MybatisPlus + Redis + Mysql + So-Token + elasticsearch
 (2)，前端 Vue2 + element-ui + element-admin-template-master
 ### 1.项目讲解
+目前搜索功能并没有写,目前展示没空,有时间补上
 1. 使用 element-admin-template-master模板开发,开始开发后台管理
 2. 项目以单体架构入手，先快速开发，不考虑项目优化，降低开发负担
 3. 开发完成后，开始优化项目，提升编程思维能力
