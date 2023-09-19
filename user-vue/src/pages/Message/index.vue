@@ -254,7 +254,7 @@ export default {
             messageList: [],
             //查询条件
             queryParam: {
-                pageNum: 0,
+                pageNum: 1,
                 pageSize: 18,
                 type: -1,
                 //总共多少页
