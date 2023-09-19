@@ -33,7 +33,21 @@ npm install
  后台端 npm run dev
  ```
 
-### 三，后端工程搭建
+### 三，项目图片介绍
+![输入图片说明](user-vue/public/images/@NGA()0H2GVK%601U5Z9%60~1ST.png)
+![输入图片说明](user-vue/public/images/9%7BI%7DJ%5DIB(MJXQA~PSS_SZ%5DF.png)
+![输入图片说明](user-vue/public/images/646S312Q~XS$J%60%7D%5BKYQD3RK.png)
+![输入图片说明](user-vue/public/images/5419$LRDFVPQ3FH)%7D%7D%7D%606MH.png)
+![输入图片说明](user-vue/public/images/II~3(%7BP0P3LJ%5DU3V$9RW%7D4Q.png)
+![输入图片说明](user-vue/public/images/K~ISOUVML@R6$2)EUDB%7D0%7D8.png)
+![输入图片说明](user-vue/public/images/M3L4$SZ(8ZQ_%7BHUT1)RD0_G.png)
+![输入图片说明](user-vue/public/images/OU%5BNF2HKPKTCM%25PV%606I~%5D%7DF.png)
+![输入图片说明](user-vue/public/images/SEI%7D0B)%5BI%5BXCFYQB0ON013Y.png)
+![输入图片说明](user-vue/public/images/SIWT3GBLULWE69BLAQEQGEX.png)
+![输入图片说明](user-vue/public/images/UKGFO~7VY3XE_MP%25T%5DA8J0V.png)
+![输入图片说明](user-vue/public/images/YILFDK3Y7V8DZYG(3%7BNSPSU.png)
+![输入图片说明](user-vue/public/images/ZH%7DHRODP%25D%5BPFEN(OEL~49Q.png)
+### 四，后端工程搭建
 #### 1.新建maven工程
  ``` java
     <dependencies>
