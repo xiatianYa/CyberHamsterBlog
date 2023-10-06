@@ -1,6 +1,9 @@
 <template>
     <div :class="weather ? 'color-130c0e' : 'color-fffffb'">
-        <v-md-editor class="editor" :class="weather ? 'white' : 'black'" v-model="content" mode="preview" :disabled-menus="[]"
+        <v-md-editor class="editor" :class="weather ? 'white' : 'black'"
+                     v-model="content"
+                     default-show-toc="true"
+                     mode="preview"
             @upload-image="handleUploadImage"></v-md-editor>
     </div>
 </template>

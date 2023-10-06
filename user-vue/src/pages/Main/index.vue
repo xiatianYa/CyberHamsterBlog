@@ -52,11 +52,11 @@
                         </div>
                         <div class="status_item">
                           <div class="title">标签</div>
-                          <div class="count">{{ blogCount.classifyCount }}</div>
+                          <div class="count">{{ blogCount.tagsCount }}</div>
                         </div>
                         <div class="status_item">
                           <div class="title">归档</div>
-                          <div class="count">{{ blogCount.tagsCount }}</div>
+                          <div class="count">{{ blogCount.classifyCount }}</div>
                         </div>
                       </div>
                       <div class="social">

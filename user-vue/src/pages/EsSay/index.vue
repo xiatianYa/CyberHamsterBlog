@@ -15,7 +15,7 @@
               </span>
             </div>
             <div class="categories">
-              <span class="icon iconfont icon-tags" v-for="tag, index in blog.tbTagsEntityList" :key="index">
+              <span class="icon iconfont icon-tags" v-for="tag,index in blog.tbTagsEntityList" :key="index">
                 <i>{{ tag.tagsName }}</i>
               </span>
             </div>
@@ -78,7 +78,7 @@
             </div>
             <div class="wrapper">
               <div class="items">
-                <a class="item" :class="weather ? 'color-130c0e' : 'color-fffffb'" v-for="blog in BlogList.slice(0, 3)"
+                <a class="item" :class="weather ? 'color-130c0e' : 'color-fffffb'" v-for="blog in BlogList.slice(0,3)"
                   :key="blog.blogId" @click="goEsSay(blog.blogId)">
                   <div class="title">{{ blog.blogTitle }}</div>
                   <div class="time">{{ blog.createTime }}</div>
@@ -283,7 +283,6 @@ export default {
               height: 100%;
 
               .img_wrapper {
-                width: 20;
                 padding: 0 1rem;
 
                 img {

@@ -7,10 +7,10 @@ spring:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 本地数据库
-      url: jdbc:mysql://127.0.0.1:3306/blog_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://47.115.213.84:3306/blog_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       # 数据库密码
-      password: 123456
+      password: 2539195984
       db-type: com.alibaba.druid.pool.DruidDataSource
       test-on-borrow: true
       test-while-idle: true
@@ -36,14 +36,14 @@ mybatis-plus:
 aliyun:
   oss:
     file:
-      endpoint: xxx
-      keyid: xxx
-      keysecret: xxx
-      bucketname: xxx
+      endpoint: oss-cn-hangzhou.aliyuncs.com
+      keyid: LTAI5tL9Q7SQMaSExQCfy2Gh
+      keysecret: TgAOiiX1oYR6yrh9HTgM7lOIMTs5c4
+      bucketname: edu-9556
 
 # MD5 加密盐
 blog:
-  Md5Salt: xxx
+  Md5Salt: 9556
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:

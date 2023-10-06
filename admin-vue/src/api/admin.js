@@ -7,7 +7,7 @@ export function reqGetUserList(param) {
     })
 }
 //获取用户信息
-export function  reqGetUserById(Id) {
+export function reqGetUserById(Id) {
     return request({
       url: `/user/queryTagByUserId/${Id}`,
       method: 'get',

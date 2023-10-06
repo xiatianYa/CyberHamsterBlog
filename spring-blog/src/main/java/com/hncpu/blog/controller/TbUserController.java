@@ -44,6 +44,9 @@ public class TbUserController {
         if (!password.equals(TbUser.getLoginPassword())){
             return ApiResult.error("密码错误");
         }
+        if (TbUser.getLocked()!=0){
+            return ApiResult.error("用户被锁定,无法登录,请联系管理员!");
+        }
         StpUtil.login(TbUser.getAdminUserId());
         SaTokenInfo SaToken = StpUtil.getTokenInfo();
         return ApiResult.success(SaToken);

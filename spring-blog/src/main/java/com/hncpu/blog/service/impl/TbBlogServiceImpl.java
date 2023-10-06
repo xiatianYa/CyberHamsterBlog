@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hncpu.blog.dto.TbBlogDTO;
-import com.hncpu.blog.dto.TbClassIfyByBlogCountDTO;
-import com.hncpu.blog.entity.TbBlogEntity;
-import com.hncpu.blog.entity.TbBlogTagsRelationEntity;
-import com.hncpu.blog.entity.TbTagsEntity;
+import com.hncpu.blog.entity.*;
+import com.hncpu.blog.mapper.TbBlogCountMapper;
 import com.hncpu.blog.mapper.TbBlogMapper;
+import com.hncpu.blog.mapper.TbClassIfyCountMapper;
 import com.hncpu.blog.service.TbBlogService;
 import com.hncpu.blog.service.TbBlogTagsRelationService;
 import com.hncpu.blog.service.TbTagsService;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,11 +28,16 @@ public class TbBlogServiceImpl extends ServiceImpl<TbBlogMapper, TbBlogEntity> i
     private TbBlogTagsRelationService tbBlogTagsRelationService;
     @Autowired
     private TbTagsService tbTagsService;
+    @Autowired
+    private TbBlogCountMapper tbBlogCountMapper;
+    @Autowired
+    private TbClassIfyCountMapper tbClassIfyCountMapper;
     /** 分页查询文章列表 并查询标签列表 */
     @Override
     public List<TbBlogDTO> selectUserInfoByGtFraction(Integer pageNum, Integer pageSize) {
         Page<TbBlogEntity> BlogPage=new Page<>(pageNum,pageSize);
         LambdaQueryWrapper<TbBlogEntity> wrapper=new LambdaQueryWrapper<>();
+        wrapper.eq(TbBlogEntity::getBlogStatus,0);
         wrapper.orderByDesc(TbBlogEntity::getCreateTime);
         baseMapper.selectPage(BlogPage,wrapper);
         List<TbBlogEntity> tbBlogEntities = BlogPage.getRecords();
@@ -47,13 +52,33 @@ public class TbBlogServiceImpl extends ServiceImpl<TbBlogMapper, TbBlogEntity> i
     /** 通过ClassIfyId 来查询文章列表 */
     @Override
     public List<TbBlogEntity> queryAllByClassIfyId(Integer Id) {
-        LambdaQueryWrapper<TbBlogEntity> BlogLQ=new LambdaQueryWrapper<>();
-        BlogLQ.eq(TbBlogEntity::getBlogClassifyId,Id);
-        return baseMapper.selectList(BlogLQ);
+        if (Id!=null){
+            TbClassIfyCountEntity tbClassIfyCountEntity=new TbClassIfyCountEntity();
+            tbClassIfyCountEntity.setClassifyId(Id);
+            tbClassIfyCountEntity.setCreateTime(new Date());
+            tbClassIfyCountMapper.insert(tbClassIfyCountEntity);
+        }
+        LambdaQueryWrapper<TbBlogEntity> Wrapper=new LambdaQueryWrapper<>();
+        Wrapper.eq(TbBlogEntity::getBlogStatus,0);
+        Wrapper.eq(TbBlogEntity::getBlogClassifyId,Id);
+        return baseMapper.selectList(Wrapper);
     }
     /** 通过文章ID 查询文章 */
     @Override
     public TbBlogDTO queryBlogByBlogId(Integer Id) {
+        LambdaQueryWrapper<TbBlogCountEntity> countWrapper=new LambdaQueryWrapper();
+        countWrapper.eq(TbBlogCountEntity::getBlogId,Id);
+        TbBlogCountEntity one = tbBlogCountMapper.selectOne(countWrapper);
+        if (one!=null){
+            int count=one.getCountNumber()+1;
+            one.setCountNumber(count);
+            tbBlogCountMapper.updateById(one);
+        }else{
+            TbBlogCountEntity tbBlogCountEntity=new TbBlogCountEntity();
+            tbBlogCountEntity.setBlogId(Id);
+            tbBlogCountEntity.setCountNumber(1);
+            tbBlogCountMapper.insert(tbBlogCountEntity);
+        }
         TbBlogDTO tbBlogDTO=new TbBlogDTO();
         LambdaQueryWrapper<TbBlogEntity> lambdaQueryWrapper=new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(TbBlogEntity::getBlogId,Id);
@@ -73,8 +98,9 @@ public class TbBlogServiceImpl extends ServiceImpl<TbBlogMapper, TbBlogEntity> i
         return list.stream().map((item) -> {
             LambdaQueryWrapper<TbBlogEntity> lambdaQueryWrapper1 = new LambdaQueryWrapper<>();
             lambdaQueryWrapper1.eq(TbBlogEntity::getBlogId, item.getBlogId());
+            lambdaQueryWrapper1.eq(TbBlogEntity::getBlogStatus,0);
             return baseMapper.selectOne(lambdaQueryWrapper1);
-        }).collect(Collectors.toList());
+        }).filter(Objects::nonNull).collect(Collectors.toList());
     }
     /** 修改文章信息 */
     @Override

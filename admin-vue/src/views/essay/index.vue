@@ -236,27 +236,25 @@ export default {
     //处理博客文章关联标签
     handleEssayAndTag(essay) {
       //处理关联标签
-      const Tagitems = [
+      //标签类型列表
+      const Types = [
         { type: '', },
         { type: 'success', },
         { type: 'info', },
         { type: 'danger', },
-        { type: 'warning', },
-        { type: '', },
-        { type: 'success', },
-        { type: 'info', },
-        { type: 'danger', },
-        { type: 'warning', },
-        { type: '', },
-        { type: 'success', },
-        { type: 'info', },
-        { type: 'danger', },
-        { type: 'warning', },
+        { type: 'warning'},
       ];
+      const Tagitems=[];
       for (let index = 0; index < essay.tbTagsEntityList.length; index++) {
         const tag = essay.tbTagsEntityList[index];
-        Tagitems[index].label = tag.tagsName
-        Tagitems[index].tagsId = tag.tagsId
+        const random=Math.floor((Math.random()*Types.length));
+        const type=Types[random].type;
+        const tagItem={
+          type:type,
+          label:tag.tagsName,
+          tagsId:tag.tagsId
+        }
+        Tagitems.push(tagItem)
       }
       essay.tbTagsEntityList = Tagitems.filter(item => item.label !== undefined)
       return essay
@@ -287,10 +285,18 @@ export default {
     },
     //提交文章修改信息
     async submitEssay() {
+      this.essay.tbTagsEntityList = this.checkedTags.map(item => {
+        return { tagsId: item }
+      })
+      if(this.inSpectBlog(this.essay)){
+        this.$message({
+          message: "参数非法,请检查参数!",
+          type: 'error'
+        });
+        return;
+      }
+      //如果blogId 不为undefined 则提交为添加
       if (this.essay.blogId === undefined) {
-        this.essay.tbTagsEntityList = this.checkedTags.map(item => {
-          return { tagsId: item }
-        })
         const result = await reqAddEssay(this.essay)
         if (result.code === 20000) {
           this.$message({
@@ -299,9 +305,6 @@ export default {
           });
         }
       } else {
-        this.essay.tbTagsEntityList = this.checkedTags.map(item => {
-          return { tagsId: item }
-        })
         const result = await reqUpdateEssay(this.essay)
         if (result.code === 20000) {
           this.$message({
@@ -387,6 +390,13 @@ export default {
     //跳转到文章编辑页面
     editEssay(blogId) {
       this.$router.push({ path: '/blog/editessay', query: { blogId: blogId } })
+    },
+    //检查列表是否合规
+    inSpectBlog(blog){
+      console.log(blog)
+      if (blog.blogTitle == '' || blog.blogClassifyId == undefined || blog.tbTagsEntityList.length ==0 ){
+        return true;
+      }
     }
   }
 }

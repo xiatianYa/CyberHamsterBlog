@@ -39,6 +39,9 @@ public class TbClassIfyCountServiceImpl extends ServiceImpl<TbClassIfyCountMappe
         //设置类型
         tbBlogCountByYearDTO.getSeries().setType("bar");
         //获取所有归档
+        LambdaQueryWrapper<TbClassifyEntity> ClassIfyWrapper=new LambdaQueryWrapper<>();
+        //不能获取已删除的归档
+        ClassIfyWrapper.eq(TbClassifyEntity::getIsDeleted,0);
         List<TbClassifyEntity> classIfyList = tbClassifyService.list();;
         for (TbClassifyEntity classIfy:classIfyList){
             //设置返回对象获取归档名称

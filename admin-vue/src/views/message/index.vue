@@ -95,13 +95,13 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(async () => {
+      }).then(async() => {
         const result = await reqDeleteMessageReport(Ids)
         if (result.code === 20000) {
           this.$message({
             message: '删除成功',
             type: 'success'
-          });
+          })
         }
         this.GetMessageReportList()
       }).catch(() => {
@@ -110,7 +110,7 @@ export default {
           message: '已取消删除'
         });
         this.GetMessageReportList()
-      });
+      })
     },
     async deleteMessageReportById(Id) {
       const Ids = [Id]
@@ -118,7 +118,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(async () => {
+      }).then(async() => {
         const result = await reqDeleteMessageReport(Ids)
         if (result.code === 20000) {
           this.$message({

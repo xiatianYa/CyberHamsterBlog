@@ -7,7 +7,7 @@
     </div>
     <!-- 表格区域 -->
     <el-table v-loading="Loading" :data="userList" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column align="center" prop="adminUserId" label="ID" width="95">
+      <el-table-column align="center" prop="adminUserId" label="ID" width="120">
       </el-table-column>
       <el-table-column label="用户名" prop="loginUserName">
       </el-table-column>
@@ -36,6 +36,12 @@
             @click="OpenupdateUserPassWord(scope.row.adminUserId)"></el-button>
         </template>
       </el-table-column>
+      <el-table-column align="center" prop="created_at" label="删除用户" width="100">
+        <template slot-scope="scope">
+          <el-button type="danger" icon="el-icon-delete" circle
+                     @click="deleteUser(scope.row.adminUserId)"></el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- 修改用户对话框 -->
     <el-dialog title="用户详情" :visible.sync="dialogFormUser">
@@ -44,7 +50,7 @@
           <el-input v-model="userMenu.loginUserName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="用户头像" :label-width="formLabelWidth">
-          <el-upload class="avatar-uploader" action="/api/fileoss/uploadOssFile" :show-file-list="false"
+          <el-upload class="avatar-uploader" action="http://47.115.213.84:8080/api/fileoss/uploadOssFile" :show-file-list="false"
             :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -66,7 +72,7 @@
           <el-input v-model="userMenu.loginPassword" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="用户头像" :label-width="formLabelWidth">
-          <el-upload class="avatar-uploader" action="/api/fileoss/uploadOssFile" :show-file-list="false"
+          <el-upload class="avatar-uploader"  action="http://47.115.213.84:8080/api/fileoss/uploadOssFile" :show-file-list="false"
             :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -95,7 +101,9 @@
 </template>
 
 <script>
-import { reqGetUserList, reqGetUserById, reqUpdateUser, reqAddUser,reqUpdateUserPwd } from "@/api/admin"
+import { reqGetUserList, reqGetUserById, reqUpdateUser,reqAddUser,reqUpdateUserPwd,reqDeleteUser } from "@/api/admin"
+import { reqUploadFile } from "@/api/common"
+import {reqDeleteEssay} from "@/api/blog";
 export default {
   data() {
     return {
@@ -107,7 +115,7 @@ export default {
       userMenu: {},
       classIfyMenu: {},
       formLabelWidth: '120px',
-      imageUrl: ''
+      imageUrl: '',
     }
   },
   created() {
@@ -131,7 +139,7 @@ export default {
       }
       return isJPG && isLt2M;
     },
-    //删除过滤器  
+    //删除过滤器
     filterDelete(value, row) {
       return row.isDeleted === value;
     },
@@ -211,6 +219,28 @@ export default {
       }
       this.dialogFormPassWord=false;
       this.GetUserList()
+    },
+    async deleteUser(Id){
+      this.$confirm('此操作将删除用户', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const result = await reqDeleteUser(Id)
+        if (result.code === 20000) {
+          this.$message({
+            message: result.msg,
+            type: 'success'
+          });
+        }
+        this.GetUserList()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: result.msg
+        });
+        this.GetUserList()
+      });
     }
   }
 }

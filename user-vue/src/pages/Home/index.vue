@@ -70,12 +70,8 @@ export default {
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.audio {
-  left: 0;
-  bottom: 0px;
-  display: block;
-  min-height: 0vh;
-  position: absolute;
+.Home{
+  max-height: 100vh;
 }
 .animate {
   top: 0;

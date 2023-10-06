@@ -27,7 +27,7 @@ module.exports = {
   publicPath: '/admin-vue',
   outputDir: 'dist',
   assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: false,
   productionSourceMap: false,
   devServer: {
     // proxy: {

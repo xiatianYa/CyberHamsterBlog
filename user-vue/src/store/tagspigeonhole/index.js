@@ -14,6 +14,7 @@ const actions = {
     async getBlogsByTagsId({commit},TagsId){
         let result = await reqGetBlogByTagsId(TagsId);
         if(result.code==20000){
+            console.log(result.data)
             commit('GETBLOGSBYTAGSID',result.data)
         }
     }

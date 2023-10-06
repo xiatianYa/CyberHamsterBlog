@@ -1,5 +1,4 @@
 import axios from 'axios'
-import store from '@/store'
 
 //1:利用axuis方法 create 去创建一个axios实例
 const requests =axios.create({
@@ -15,7 +14,7 @@ requests.interceptors.response.use(
     (res)=>{
         return res.data;
     },(err)=>{
-        
+        return err;
     },
 )
 export default requests

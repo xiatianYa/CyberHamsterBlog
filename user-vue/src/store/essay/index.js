@@ -2,7 +2,7 @@ import { reqGetBlogByBlogId, reqGetBlogCount, reqGetBlog } from "@/api";
 //仓库存储数据的地方
 const state = {
     blog: '',
-    countList: [],
+    countList: [{}],
     BlogList: {}
 };
 //修改仓库数据的唯一手段

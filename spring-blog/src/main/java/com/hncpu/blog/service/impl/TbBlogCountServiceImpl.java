@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,9 +32,10 @@ public class TbBlogCountServiceImpl extends ServiceImpl<TbBlogCountMapper, TbBlo
             Integer blogId = item.getBlogId();
             LambdaQueryWrapper<TbBlogEntity> blogWrapper = new LambdaQueryWrapper<>();
             blogWrapper.eq(TbBlogEntity::getBlogId, blogId);
+            blogWrapper.eq(TbBlogEntity::getBlogStatus,0);
             TbBlogEntity blog = tbBlogService.getOne(blogWrapper);
             return blog;
-        }).collect(Collectors.toList());
+        }).filter(Objects::nonNull).collect(Collectors.toList());
         return blogList;
     }
 }

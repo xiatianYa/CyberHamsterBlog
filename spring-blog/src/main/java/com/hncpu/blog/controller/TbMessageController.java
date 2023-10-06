@@ -24,9 +24,9 @@ public class TbMessageController {
     public ApiResult<String> insertMessage(@RequestBody TbMessageEntity tbMessageEntity){
         int count =tbMessageService.insertMessage(tbMessageEntity);
         if (count>0){
-            return ApiResult.success("添加成功");
+            return ApiResult.success("添加留言成功");
         }else{
-            return ApiResult.success("添加失败");
+            return ApiResult.success("添加留言失败");
         }
     }
     @GetMapping("/addLike/{Id}")
