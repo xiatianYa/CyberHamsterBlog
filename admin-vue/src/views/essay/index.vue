@@ -40,7 +40,7 @@
             '已删除' }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column sortable align="center" prop="created_at" label="创建时间" width="110">
+      <el-table-column sortable align="center" prop="created_at" label="创建时间" width="130">
         <template slot-scope="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.createTime }}</span>
@@ -70,7 +70,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination style="text-align: center; padding-top: 20px;" @size-change="handleChangeSize" @next-click="handleChangeNext" @prev-click="handleChangePrev" @current-change="handleChangeCurrent" background layout="prev, pager, next" :size="pageInfo.size" :total="pageInfo.total" >
+    <el-pagination style="text-align: center; padding-top: 20px;" @size-change="handleChangeSize" @next-click="handleChangeNext" @prev-click="handleChangePrev" @current-change="handleChangeCurrent" background layout="prev, pager, next" :page-size="pageInfo.size" :total="pageInfo.total" >
     </el-pagination>
     <el-dialog title="文章详情" :visible.sync="dialogFormVisible">
       <el-form :model="essay">
@@ -139,6 +139,7 @@ export default {
         blogStatus: '',
         isDeleted: '',
       },
+      //多选框
       multipleSelection: [],
       formLabelWidth: '120px',
       //被选择的标签
@@ -148,7 +149,13 @@ export default {
       //全部标签
       tags: [],
       //全选按钮
-      isIndeterminate: false
+      isIndeterminate: false,
+      //文章搜索条件
+      blogSearch:{
+        classifyId:'',
+        blogStatus:1,
+        isDeleted:0,
+      }
     }
   },
   created() {
@@ -230,6 +237,7 @@ export default {
           //处理关联标签
           return this.handleEssayAndTag(essay)
         })
+        console.log(this.pageInfo)
         this.listLoading = false
       }
     },

@@ -26,9 +26,10 @@ public class TbBlogCountServiceImpl extends ServiceImpl<TbBlogCountMapper, TbBlo
     public List<TbBlogEntity> getBlogAccessList() {
         Page<TbBlogCountEntity> page=new Page<>(0,10);
         LambdaQueryWrapper<TbBlogCountEntity> wrapper=new LambdaQueryWrapper<>();
-        wrapper.orderByAsc(TbBlogCountEntity::getCountNumber);
-        Page<TbBlogCountEntity> tbBlogCountEntityPage = baseMapper.selectPage(page, wrapper);
-        List<TbBlogEntity> blogList = tbBlogCountEntityPage.getRecords().stream().map(item -> {
+        wrapper.orderByDesc(TbBlogCountEntity::getCountNumber);
+        baseMapper.selectPage(page, wrapper);
+        //根据排行前10的blogId 查询Blog列表
+        List<TbBlogEntity> blogList = page.getRecords().stream().map(item -> {
             Integer blogId = item.getBlogId();
             LambdaQueryWrapper<TbBlogEntity> blogWrapper = new LambdaQueryWrapper<>();
             blogWrapper.eq(TbBlogEntity::getBlogId, blogId);

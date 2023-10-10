@@ -6,7 +6,7 @@
         <div  :class="weather ? 'color-130c0e' : 'color-fffffb'">
             Powered by SpringBoot & Vue
         </div>
-        <a href="https://beian.miit.gov.cn/" target="_blank"  :class="weather ? 'color-130c0e' : 'color-fffffb'">湘ICP备1234567890号</a>
+        <a href="https://beian.miit.gov.cn/" target="_blank"  :class="weather ? 'color-130c0e' : 'color-fffffb'">湘ICP备2023024567号</a>
     </footer>
 </template>
 

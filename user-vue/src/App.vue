@@ -58,7 +58,7 @@ body {
   min-height: 100vh;
   background: #0c192c;
   min-width: 320px;
-  max-width: 2560px;
+  max-width: 100vw;
 }
 
 /** 清除a标签样式 **/
