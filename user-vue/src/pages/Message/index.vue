@@ -83,6 +83,7 @@
                     <div class="model-slot">
                         <div class="create">
                             <div class="colors">
+                              <p style="font-size: 16px;font-weight: 600;color: #202020">颜色 &nbsp;</p>
                                 <p class="color" :class="colorIndex === 0 ? 'selectcolor' : ''"
                                     style="background-color: rgb(252, 175, 162);"
                                     @click="changeColor('background-color: rgb(252, 175, 162);', 0)"></p>
@@ -99,7 +100,7 @@
                                     style="background-color: rgb(202, 167, 247);"
                                     @click="changeColor('background-color: rgb(202, 167, 247);', 4)"></p>
                             </div>
-                            <div class="card" style="background-color: rgba(252,175,162,0.3)">
+                            <div class="card" :style="liuyCommitMenu.messageColor">
                                 <textarea class="ly" placeholder="留言..." maxlength="96"
                                     v-model="liuyCommitMenu.messageContent"></textarea>
                                 <input type="text" class="qm" placeholder="签名" placeholder-class="qmpl"

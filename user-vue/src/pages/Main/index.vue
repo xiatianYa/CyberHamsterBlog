@@ -106,7 +106,7 @@ export default {
   data() {
     return {
       pageNum: 0,
-      pageSize: 10,
+      pageSize: 30,
       loading: false,
       userInfo: {}
     };

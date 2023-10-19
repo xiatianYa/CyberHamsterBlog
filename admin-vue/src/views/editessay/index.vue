@@ -48,6 +48,7 @@ export default {
                     type: 'success',
                     message: '上传成功'
                 });
+                this.UpdateEssay();
             } else {
                 this.$message({
                     type: 'error',
@@ -117,9 +118,7 @@ export default {
             });
             const inSpectBlog = await reqGetEssayById(this.$route.query.blogId)
             //定时保存字符必须大于之前字符数
-            console.log(this.essay.blogContent.length)
-            console.log(inSpectBlog.data.blogContent.length)
-            if (this.essay.blogContent.length<inSpectBlog.data.blogContent.length){
+            if (this.essay.blogContent.length>=inSpectBlog.data.blogContent.length){
               this.$message({
                 type: 'error',
                 message: '定时保存失败(请手动保存)!'
@@ -140,7 +139,7 @@ export default {
                 });
               }
             }
-          },5* 60 * 1000)
+          },10* 60 * 1000)
         },
       clearTime(){
           clearInterval(this.timer)

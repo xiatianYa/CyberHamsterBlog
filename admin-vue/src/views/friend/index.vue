@@ -57,7 +57,7 @@
         <el-form-item label="网址" :label-width="formLabelWidth">
           <el-input v-model="friendMenu.friendAddress" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="用户头像" :label-width="formLabelWidth">
+        <el-form-item label="头像" :label-width="formLabelWidth">
           <el-upload class="avatar-uploader" action="/api/fileoss/uploadOssFile"
             :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -118,7 +118,7 @@ export default {
       }
       return isJPG && isLt2M;
     },
-    //删除过滤器  
+    //删除过滤器
     filterDelete(value, row) {
       return row.isDeleted === value;
     },

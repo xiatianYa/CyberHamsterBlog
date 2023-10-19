@@ -16,10 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,6 +58,7 @@ public class TbBlogServiceImpl extends ServiceImpl<TbBlogMapper, TbBlogEntity> i
         LambdaQueryWrapper<TbBlogEntity> Wrapper=new LambdaQueryWrapper<>();
         Wrapper.eq(TbBlogEntity::getBlogStatus,0);
         Wrapper.eq(TbBlogEntity::getBlogClassifyId,Id);
+        Wrapper.orderByDesc(TbBlogEntity::getCreateTime);
         return baseMapper.selectList(Wrapper);
     }
     /** 通过文章ID 查询文章 */
@@ -100,7 +98,7 @@ public class TbBlogServiceImpl extends ServiceImpl<TbBlogMapper, TbBlogEntity> i
             lambdaQueryWrapper1.eq(TbBlogEntity::getBlogId, item.getBlogId());
             lambdaQueryWrapper1.eq(TbBlogEntity::getBlogStatus,0);
             return baseMapper.selectOne(lambdaQueryWrapper1);
-        }).filter(Objects::nonNull).collect(Collectors.toList());
+        }).filter(Objects::nonNull).sorted(Comparator.comparing(TbBlogEntity::getCreateTime)).collect(Collectors.toList());
     }
     /** 修改文章信息 */
     @Override
@@ -146,10 +144,15 @@ public class TbBlogServiceImpl extends ServiceImpl<TbBlogMapper, TbBlogEntity> i
     /** 后台查询文章列表 */
     @Override
     public Page<TbBlogEntity> selectEssayList(int pageNum, int pageSize) {
+        //设置分页
         Page<TbBlogEntity> BlogPage=new Page<>(pageNum,pageSize);
+        //设置匹配条件
         LambdaQueryWrapper<TbBlogEntity> wrapper=new LambdaQueryWrapper<>();
+        //设置以创建时间倒序
         wrapper.orderByDesc(TbBlogEntity::getCreateTime);
+        //查询为Page对象
         baseMapper.queryAllEssayList(BlogPage,wrapper);
+        //遍历对象设置参数
         BlogPage.setRecords(BlogPage.getRecords().stream().map((item) -> {
             TbBlogDTO tbBlogDTO = new TbBlogDTO();
             BeanUtils.copyProperties(item, tbBlogDTO);

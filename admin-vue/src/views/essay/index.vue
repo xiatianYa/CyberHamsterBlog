@@ -121,7 +121,7 @@ export default {
       pageInfo:{
         records:[],
         total:0,
-        size:15,
+        size:25,
         current:1,
         orders:''
       },
@@ -237,7 +237,6 @@ export default {
           //处理关联标签
           return this.handleEssayAndTag(essay)
         })
-        console.log(this.pageInfo)
         this.listLoading = false
       }
     },
