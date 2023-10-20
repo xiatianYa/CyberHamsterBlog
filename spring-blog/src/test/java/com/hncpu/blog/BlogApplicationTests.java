@@ -10,14 +10,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 @SpringBootTest
 class BlogApplicationTests {
     @Autowired
-    RedisTemplate redisTemplate;
+    private RedisTemplate<String,Object> redisTemplate;
     @Test
     public void test(){}
     @Test
     public void testRedis(){
-        Integer name = (Integer) redisTemplate.opsForValue().get("Id");
-        System.out.println(name);
-        System.out.println("redis");
+        redisTemplate.opsForValue().set("1","2");
+        System.out.println(redisTemplate.opsForValue().get("1"));
     }
     @Test
     public void testMd5(){

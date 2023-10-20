@@ -3,7 +3,7 @@ import request from '@/utils/request'
 //获取归档列表
 export function reqGetClassIfyListByPage() {
     return request({
-        url: '/classify/classIfy/0/30',
+        url: '/classify',
         method: 'get',
     })
 }

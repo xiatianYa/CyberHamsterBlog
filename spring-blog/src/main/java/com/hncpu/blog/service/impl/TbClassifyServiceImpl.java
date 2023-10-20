@@ -71,8 +71,8 @@ public class TbClassifyServiceImpl extends ServiceImpl<TbClassifyMapper, TbClass
      * 查询归档 后台
      */
     @Override
-    public List<TbClassifyEntity> queryClassIfyAll(int pageNum, int pageSize) {
-        return baseMapper.selectClassIfyList(pageNum,pageSize);
+    public List<TbClassifyEntity> queryClassIfyAll() {
+        return baseMapper.selectList(new LambdaQueryWrapper<>());
     }
 
     @Override

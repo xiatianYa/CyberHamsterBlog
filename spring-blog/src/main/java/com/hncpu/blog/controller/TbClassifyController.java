@@ -8,6 +8,8 @@ import com.hncpu.blog.service.TbClassifyService;
 import com.hncpu.blog.exception.BlogException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,20 +23,22 @@ public class TbClassifyController {
     private TbClassifyService tbClassifyService;
     /** 查询全部归档 */
     @GetMapping("/list")
+    @Cacheable(cacheNames = "UserClassList")
     public ApiResult<List<TbClassifyEntity>> queryAll(){
         List<TbClassifyEntity> tbClassifyEntities = tbClassifyService.queryAll();
         return ApiResult.success(tbClassifyEntities);
     }
     /** 查询博客归档数量 */
     @GetMapping("/getClassifyCount")
+    @Cacheable(cacheNames = "ClassifyCount")
     public ApiResult<Long> getClassIfyCount(){
         return ApiResult.success(tbClassifyService.count());
     }
     @SaCheckPermission("user.get")
-    @GetMapping("/classIfy/{pageNum}/{pageSize}")
-    public ApiResult<List<TbClassifyEntity>> queryClassIfyList(@PathVariable(value = "pageNum") int pageNum,
-                                       @PathVariable(value = "pageSize") int pageSize){
-        List<TbClassifyEntity> tbClassifyEntities = tbClassifyService.queryClassIfyAll(pageNum,pageSize);
+    @GetMapping
+    @Cacheable(cacheNames = "AdminClassList")
+    public ApiResult<List<TbClassifyEntity>> queryClassIfyList(){
+        List<TbClassifyEntity> tbClassifyEntities = tbClassifyService.queryClassIfyAll();
         return ApiResult.success(tbClassifyEntities);
     }
     /** 根据Id查询归档 */
@@ -45,6 +49,7 @@ public class TbClassifyController {
     /** 删除归档 */
     @SaCheckPermission("user.delete")
     @GetMapping("/deleteClassIfyById/{Id}")
+    @CacheEvict(cacheNames = {"ClassIfyAndBlogCount","AdminClassList","ClassifyCount","UserClassList"},allEntries = true)
     public ApiResult<String> deleteClassIfyById(@PathVariable Integer Id){
         try {
             int count = tbClassifyService.deleteClassIfyById(Id);
@@ -59,6 +64,7 @@ public class TbClassifyController {
     /** 修改归档 */
     @SaCheckPermission("user.update")
     @PostMapping("/updateClassIfyById")
+    @CacheEvict(cacheNames = {"ClassIfyAndBlogCount","AdminClassList","UserClassList"},allEntries = true)
     public ApiResult<String> updateClassIfyById(@RequestBody TbClassifyEntity tbClassifyEntity){
         try {
             int count = tbClassifyService.updateClassIfyById(tbClassifyEntity);
@@ -72,6 +78,7 @@ public class TbClassifyController {
     }
     @SaCheckPermission("user.add")
     @PostMapping("/insertClassIfy")
+    @CacheEvict(cacheNames = {"ClassIfyAndBlogCount","AdminClassList","ClassifyCount","UserClassList"},allEntries = true)
     public ApiResult<String> insertClassIfy(@RequestBody TbClassifyEntity tbClassifyEntity){
         int count = tbClassifyService.insertClassIfy(tbClassifyEntity);
         if (count>0){
@@ -82,6 +89,7 @@ public class TbClassifyController {
     /** 获取各归档文章数量 */
     @SaCheckPermission("user.get")
     @GetMapping("/getClassIfyAndBlogCount")
+    @Cacheable(cacheNames = "ClassIfyAndBlogCount")
     public ApiResult<List<TbClassIfyByBlogCountDTO>> getClassIfyAndBlogCount(){
         List<TbClassIfyByBlogCountDTO> BlogCountDto=tbClassifyService.getClassIfyAndBlogCount();
         return ApiResult.success(BlogCountDto);

@@ -9,6 +9,8 @@ import com.hncpu.blog.entity.TbBlogEntity;
 import com.hncpu.blog.service.TbBlogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class TbBlogController {
     private TbBlogService tbBlogService;
     /** 分页查询博客文章 */
     @GetMapping("/list/{pageNum}/{pageSize}")
+    @Cacheable(cacheNames = "BlogListByPage",key = "#pageNum")
     public ApiResult<List<TbBlogDTO>> queryAllByPage(@PathVariable(value = "pageNum") int pageNum,
                                     @PathVariable(value = "pageSize") int pageSize){
         List<TbBlogDTO> tbBlogDTOS = tbBlogService.selectUserInfoByGtFraction(pageNum, pageSize);
@@ -29,11 +32,13 @@ public class TbBlogController {
     }
     /** 分页查询博客文章数量 */
     @GetMapping("/getBlogCount")
+    @Cacheable(cacheNames = "BlogCount")
     public ApiResult<Long> getBlogCount(){
         return ApiResult.success(tbBlogService.count());
     }
     // 根据归档ID 查询文章
     @GetMapping("/byClassId/{Id}")
+    @Cacheable(cacheNames = "ByClassIfList",key = "#Id")
     public ApiResult<List<TbBlogEntity>> queryAllByClassIfyId(@PathVariable Integer Id){
         List<TbBlogEntity> tbBlogEntities = tbBlogService.queryAllByClassIfyId(Id);
         return ApiResult.success(tbBlogEntities);
@@ -46,6 +51,7 @@ public class TbBlogController {
     }
     // 根据标签Id 查询文章列表
     @GetMapping("/byTagsId/{Id}")
+    @Cacheable(cacheNames = "ByTagsIdList",key = "#Id")
     public ApiResult<List<TbBlogEntity>> queryBlogByTagsId(@PathVariable Integer Id){
         List<TbBlogEntity> tbBlogEntities = tbBlogService.queryBlogByTagsId(Id);
         return ApiResult.success(tbBlogEntities);
@@ -53,6 +59,7 @@ public class TbBlogController {
     //根据文章 修改文章ID
     @SaCheckPermission("user.update")
     @PostMapping("/updateBlogById")
+    @CacheEvict(cacheNames = {"BlogList","ByTagsIdList","ByClassIfList","BlogCount","BlogListByPage"},allEntries = true)
     public ApiResult<String> updateBlogById(@RequestBody TbBlogDTO TbBlogDTO){
         try {
             int count = tbBlogService.updateBlogById(TbBlogDTO);
@@ -67,6 +74,7 @@ public class TbBlogController {
     //根据文章ID 删除文章
     @SaCheckPermission("user.delete")
     @GetMapping("/deleteBlogById/{Id}")
+    @CacheEvict(cacheNames = {"BlogList","ByTagsIdList","ByClassIfList","BlogCount","BlogListByPage"},allEntries = true)
     public ApiResult<String> deleteBlogById(@PathVariable Integer Id){
         try {
             int count = tbBlogService.deleteBlogById(Id);
@@ -80,6 +88,7 @@ public class TbBlogController {
     }
     /** 分页查询博客文章 (后台) */
     @SaCheckPermission("user.get")
+    @Cacheable(cacheNames = "BlogList",key = "#pageNum")
     @GetMapping("/essay/{pageNum}/{pageSize}")
     public ApiResult<Page<TbBlogEntity>> ManagequeryAllByPage(@PathVariable(value = "pageNum") int pageNum,
                                                               @PathVariable(value = "pageSize") int pageSize){
@@ -95,6 +104,7 @@ public class TbBlogController {
     /** 新增文章 */
     @SaCheckPermission("user.add")
     @PostMapping("/insertEssay")
+    @CacheEvict(cacheNames = {"BlogList","ByTagsIdList","ByClassIfList","BlogCount","BlogListByPage"},allEntries = true)
     public ApiResult<String> insertEssay(@RequestBody TbBlogDTO tbBlogDTO){
         try {
             int count = tbBlogService.insertEssay(tbBlogDTO);
@@ -109,6 +119,7 @@ public class TbBlogController {
     /** 删除文章 */
     @SaCheckPermission("user.delete")
     @PostMapping("/deleteEssayByIds")
+    @CacheEvict(cacheNames = {"BlogList","ByTagsIdList","ByClassIfList","BlogCount","BlogListByPage"},allEntries = true)
     public ApiResult<String> deleteEssayByIds(@RequestBody List<Integer> Ids){
         int count = tbBlogService.deleteEssayByIds(Ids);
         if (count>0){

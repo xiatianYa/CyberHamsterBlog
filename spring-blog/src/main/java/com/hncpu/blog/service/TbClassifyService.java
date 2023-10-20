@@ -19,7 +19,7 @@ public interface TbClassifyService extends IService<TbClassifyEntity> {
     int insertClassIfy(TbClassifyEntity tbClassifyEntity);
 
 
-    List<TbClassifyEntity> queryClassIfyAll(int pageNum, int pageSize);
+    List<TbClassifyEntity> queryClassIfyAll();
 
     List<TbClassIfyByBlogCountDTO> getClassIfyAndBlogCount();
 }

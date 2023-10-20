@@ -7,7 +7,7 @@ spring:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 本地数据库
-      url: jdbc:mysql://47.115.213.84:3306/blog_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://inadvertently.top:3306/blog_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       # 数据库密码
       password: 2539195984
@@ -21,6 +21,10 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 5MB
+  redis:
+    host: inadvertently.top
+    port: 6379
+    password: 2539195984
 
 
 mybatis-plus:

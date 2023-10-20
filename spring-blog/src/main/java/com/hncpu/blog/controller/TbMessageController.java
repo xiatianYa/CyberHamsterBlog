@@ -7,6 +7,8 @@ import com.hncpu.blog.entity.TbMessageEntity;
 import com.hncpu.blog.service.TbMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -17,10 +19,12 @@ public class TbMessageController {
     @Autowired
     private TbMessageService tbMessageService;
     @PostMapping
+    @Cacheable(cacheNames = "MessageListByPage",key = "#param.pageNum")
     public ApiResult<Page> getMessageList(@RequestBody TbMessageQueryParam param){
         return ApiResult.success(tbMessageService.getMessageList(param));
     }
     @PostMapping("/insertMessage")
+    @CacheEvict(cacheNames = {"MessageListByPage","MessageCount"},allEntries = true)
     public ApiResult<String> insertMessage(@RequestBody TbMessageEntity tbMessageEntity){
         int count =tbMessageService.insertMessage(tbMessageEntity);
         if (count>0){
@@ -30,11 +34,13 @@ public class TbMessageController {
         }
     }
     @GetMapping("/addLike/{Id}")
+    @CacheEvict(cacheNames = {"MessageListByPage"},allEntries = true)
     public ApiResult<String> addLike(@PathVariable Integer Id){
         tbMessageService.addLike(Id);
         return ApiResult.success("");
     }
     @GetMapping("/getMessageCount")
+    @Cacheable(cacheNames = "MessageCount")
     public ApiResult<Long> getMessageCount(){
         return ApiResult.success(tbMessageService.count());
     }
