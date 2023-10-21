@@ -2,7 +2,6 @@ package com.hncpu.blog.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.hncpu.blog.common.ApiResult;
-import com.hncpu.blog.dto.TbBlogCountByYearDTO;
 import com.hncpu.blog.entity.TbBlogEntity;
 import com.hncpu.blog.service.TbBlogCountService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +21,9 @@ import java.util.List;
 public class TbBlogCountController {
     @Autowired
     private TbBlogCountService tbBlogCountService;
+    /**
+     * 获取排行前十访问的文章
+     */
     @SaCheckPermission("user.get")
     @GetMapping
     @Cacheable(cacheNames = "BlogAccessList")

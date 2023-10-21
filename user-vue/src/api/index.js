@@ -2,7 +2,7 @@ import requests from './ajax'
 // 获取文章列表
 export const reqGetBlog=(pageNum,pageSize)=>requests({url:`/blog/list/${pageNum}/${pageSize}`,method:'get'})
 // 获取归档菜单
-export const reqGetClassif=()=>requests({url:`/classify/list`,method:'get'})
+export const reqGetClassif=()=>requests({url:`/classify`,method:'get'})
 // 获取标签菜单
 export const reqGetTags=()=>requests({url:`/tags/list`,method:'get'})
 // 获取友链列表

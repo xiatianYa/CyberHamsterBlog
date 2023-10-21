@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class TbClassIfyCountController {
     @Autowired
     private TbClassIfyCountService tbClassIfyCountService;
+    /**
+     * 获取年统计访问量
+     */
     @GetMapping
     @Cacheable(cacheNames = "BlogCountByYear")
     public ApiResult<TbBlogCountByYearDTO> getBlogCountByYear(){

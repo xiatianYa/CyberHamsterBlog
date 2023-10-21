@@ -7,7 +7,6 @@ import com.hncpu.blog.entity.TbBlogEntity;
 import com.hncpu.blog.entity.TbClassifyEntity;
 import com.hncpu.blog.mapper.TbClassifyMapper;
 import com.hncpu.blog.service.TbBlogService;
-import com.hncpu.blog.service.TbClassIfyCountService;
 import com.hncpu.blog.service.TbClassifyService;
 import com.hncpu.blog.exception.BlogException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,6 @@ import java.util.List;
 public class TbClassifyServiceImpl extends ServiceImpl<TbClassifyMapper, TbClassifyEntity> implements TbClassifyService {
     @Autowired
     private TbBlogService tbBlogService;
-    /** 查询全部归档 */
-    @Override
-    public List<TbClassifyEntity> queryAll() {
-        return baseMapper.selectList(new LambdaQueryWrapper<>());
-    }
     // 查询归档根据Id
     @Override
     public TbClassifyEntity queryClassIfyById(Integer Id) {

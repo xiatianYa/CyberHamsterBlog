@@ -20,14 +20,12 @@ public class TbFriendController {
     @Autowired
     private TbFriendService tbFriendService;
     @GetMapping("/list")
-    @Cacheable(cacheNames = "FriendList",key = "#pageNum")
     public ApiResult<List<TbFriendEntity>> queryAll(){
         List<TbFriendEntity> tbFriendEntities = tbFriendService.queryAll();
         return ApiResult.success(tbFriendEntities);
     }
     /** 查询友链列表 后台 */
     @SaCheckPermission("user.get")
-    @Cacheable(cacheNames = "FriendListByPage",key = "#pageNum")
     @GetMapping("/{pageNum}/{pageSize}")
     public ApiResult<List<TbFriendEntity>> ManagequeryAllByPage(@PathVariable(value = "pageNum") int pageNum,
                                                                 @PathVariable(value = "pageSize") int pageSize){
@@ -36,7 +34,6 @@ public class TbFriendController {
     /** 修改友链 后台 */
     @SaCheckPermission("user.update")
     @PostMapping("/updateByFriendId")
-    @CacheEvict(cacheNames = {"FriendListByPage","FriendList"},allEntries = true)
     public ApiResult<String> updateByFriendById(@RequestBody TbFriendEntity tbFriendEntity){
         int count= tbFriendService.updateByFriendById(tbFriendEntity);
         if (count>0){
@@ -47,7 +44,6 @@ public class TbFriendController {
     /** 删除友链 后台 */
     @SaCheckPermission("user.delete")
     @GetMapping("/deleteByFriendId/{Id}")
-    @CacheEvict(cacheNames = {"FriendListByPage","FriendList"},allEntries = true)
     public ApiResult<String> deleteByFriendId(@PathVariable Integer Id){
         int count=tbFriendService.deleteByFriendId(Id);
         if (count>0){
@@ -58,7 +54,6 @@ public class TbFriendController {
     /** 新增友链 后台 */
     @SaCheckPermission("user.add")
     @PostMapping("/insertFriend")
-    @CacheEvict(cacheNames = {"FriendListByPage","FriendList"},allEntries = true)
     public ApiResult<String> insertFriend(@RequestBody TbFriendEntity tbFriendEntity){
         int count=tbFriendService.insertFriend(tbFriendEntity);
         if (count>0){

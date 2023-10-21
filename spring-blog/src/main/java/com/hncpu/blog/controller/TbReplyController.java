@@ -5,6 +5,7 @@ import com.hncpu.blog.entity.TbReplyEntity;
 import com.hncpu.blog.service.TbReplyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -15,6 +16,7 @@ public class TbReplyController {
     @Autowired
     private TbReplyService tbReplyService;
     @PostMapping("/insertReply")
+    @CacheEvict(cacheNames = {"MessageList"},allEntries = true)
     public ApiResult<String> insertReply(@RequestBody TbReplyEntity replyEntity){
         int count = tbReplyService.insertReply(replyEntity);
         if (count>0){

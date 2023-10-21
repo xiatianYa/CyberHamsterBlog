@@ -19,12 +19,12 @@ public class TbMessageController {
     @Autowired
     private TbMessageService tbMessageService;
     @PostMapping
-    @Cacheable(cacheNames = "MessageListByPage",key = "#param.pageNum")
+    @Cacheable(value = "MessageList",key = "#param.pageNum")
     public ApiResult<Page> getMessageList(@RequestBody TbMessageQueryParam param){
         return ApiResult.success(tbMessageService.getMessageList(param));
     }
     @PostMapping("/insertMessage")
-    @CacheEvict(cacheNames = {"MessageListByPage","MessageCount"},allEntries = true)
+    @CacheEvict(cacheNames = {"MessageList","MessageCount"},allEntries = true)
     public ApiResult<String> insertMessage(@RequestBody TbMessageEntity tbMessageEntity){
         int count =tbMessageService.insertMessage(tbMessageEntity);
         if (count>0){
@@ -34,13 +34,13 @@ public class TbMessageController {
         }
     }
     @GetMapping("/addLike/{Id}")
-    @CacheEvict(cacheNames = {"MessageListByPage"},allEntries = true)
+    @CacheEvict(cacheNames = {"MessageList"},allEntries = true)
     public ApiResult<String> addLike(@PathVariable Integer Id){
         tbMessageService.addLike(Id);
         return ApiResult.success("");
     }
     @GetMapping("/getMessageCount")
-    @Cacheable(cacheNames = "MessageCount")
+    @Cacheable(value = "MessageCount")
     public ApiResult<Long> getMessageCount(){
         return ApiResult.success(tbMessageService.count());
     }

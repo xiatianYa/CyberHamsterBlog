@@ -8,7 +8,7 @@ import com.hncpu.blog.exception.BlogException;
 import java.util.List;
 
 public interface TbClassifyService extends IService<TbClassifyEntity> {
-    List<TbClassifyEntity> queryAll();
+
 
     TbClassifyEntity queryClassIfyById(Integer Id);
 

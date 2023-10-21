@@ -35,7 +35,6 @@ public class TbTagsController {
     }
     /** 后台查询标签列表 */
     @SaCheckPermission("user.get")
-    @Cacheable(cacheNames = "TagsListByPage",key = "#pageNum")
     @GetMapping("/tag/{pageNum}/{pageSize}")
     public ApiResult<Page<TbTagsEntity>> ManagequeryAllByPage(@PathVariable(required = false,value = "pageNum") int pageNum,
                                                               @PathVariable(required = false,value = "pageSize") int pageSize){
@@ -50,7 +49,7 @@ public class TbTagsController {
     /** 根据标签信息 修改标签 */
     @SaCheckPermission("user.update")
     @PostMapping("/updateTagByTagId")
-    @CacheEvict(cacheNames = {"TagsListByPage","TagsList"},allEntries = true)
+    @CacheEvict(cacheNames = {"TagsList"},allEntries = true)
     public ApiResult<String> updateTagByTagId(@RequestBody TbTagsEntity tbTagsEntity){
         int count=tagsService.updateTagByTagId(tbTagsEntity);
         if (count>0){
@@ -61,7 +60,7 @@ public class TbTagsController {
     /** 根据标签ID 删除标签 */
     @SaCheckPermission("user.delete")
     @GetMapping("/deleteTagByTagId/{Id}")
-    @CacheEvict(cacheNames = {"TagsListByPage","TagsList","TagsCount"},allEntries = true)
+    @CacheEvict(cacheNames = {"TagsList","TagsCount"},allEntries = true)
     public ApiResult<String> deleteTagByTagId(@PathVariable Integer Id){
         try {
             int count=tagsService.deleteTagByTagId(Id);
@@ -76,7 +75,7 @@ public class TbTagsController {
     /** 根据标签信息 插入标签 */
     @SaCheckPermission("user.add")
     @PostMapping("/insertTag")
-    @CacheEvict(cacheNames = {"TagsListByPage","TagsList","TagsCount"},allEntries = true)
+    @CacheEvict(cacheNames = {"TagsList","TagsCount"},allEntries = true)
     public ApiResult<String> insertTag(@RequestBody TbTagsEntity tbTags){
         int count=tagsService.insertTag(tbTags);
         if (count>0){

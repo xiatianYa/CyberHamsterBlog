@@ -21,35 +21,29 @@ import java.util.List;
 public class TbClassifyController {
     @Autowired
     private TbClassifyService tbClassifyService;
-    /** 查询全部归档 */
-    @GetMapping("/list")
-    @Cacheable(cacheNames = "UserClassList")
-    public ApiResult<List<TbClassifyEntity>> queryAll(){
-        List<TbClassifyEntity> tbClassifyEntities = tbClassifyService.queryAll();
-        return ApiResult.success(tbClassifyEntities);
-    }
     /** 查询博客归档数量 */
     @GetMapping("/getClassifyCount")
-    @Cacheable(cacheNames = "ClassifyCount")
+    @Cacheable(cacheNames = "ClassIfyCount")
     public ApiResult<Long> getClassIfyCount(){
         return ApiResult.success(tbClassifyService.count());
     }
-    @SaCheckPermission("user.get")
+    /** 获取所有标签 */
     @GetMapping
-    @Cacheable(cacheNames = "AdminClassList")
+    @Cacheable(cacheNames = "ClassIfyList")
     public ApiResult<List<TbClassifyEntity>> queryClassIfyList(){
         List<TbClassifyEntity> tbClassifyEntities = tbClassifyService.queryClassIfyAll();
         return ApiResult.success(tbClassifyEntities);
     }
     /** 根据Id查询归档 */
     @GetMapping("/queryClassIfyById/{Id}")
+    @Cacheable(cacheNames = "ClassIfyById",key = "#Id")
     public ApiResult<TbClassifyEntity> queryClassIfyById(@PathVariable Integer Id){
         return ApiResult.success(tbClassifyService.queryClassIfyById(Id));
     }
     /** 删除归档 */
     @SaCheckPermission("user.delete")
     @GetMapping("/deleteClassIfyById/{Id}")
-    @CacheEvict(cacheNames = {"ClassIfyAndBlogCount","AdminClassList","ClassifyCount","UserClassList"},allEntries = true)
+    @CacheEvict(cacheNames = {"ClassIfyCount","ClassIfyList","ClassIfyById","ClassIfyAndBlogCount"},allEntries = true)
     public ApiResult<String> deleteClassIfyById(@PathVariable Integer Id){
         try {
             int count = tbClassifyService.deleteClassIfyById(Id);
@@ -64,7 +58,7 @@ public class TbClassifyController {
     /** 修改归档 */
     @SaCheckPermission("user.update")
     @PostMapping("/updateClassIfyById")
-    @CacheEvict(cacheNames = {"ClassIfyAndBlogCount","AdminClassList","UserClassList"},allEntries = true)
+    @CacheEvict(cacheNames = {"ClassIfyCount","ClassIfyList","ClassIfyById"},allEntries = true)
     public ApiResult<String> updateClassIfyById(@RequestBody TbClassifyEntity tbClassifyEntity){
         try {
             int count = tbClassifyService.updateClassIfyById(tbClassifyEntity);
@@ -76,9 +70,10 @@ public class TbClassifyController {
         }
         return ApiResult.error("修改失败");
     }
+    /** 新增归档 */
     @SaCheckPermission("user.add")
     @PostMapping("/insertClassIfy")
-    @CacheEvict(cacheNames = {"ClassIfyAndBlogCount","AdminClassList","ClassifyCount","UserClassList"},allEntries = true)
+    @CacheEvict(cacheNames = {"ClassIfyCount","ClassIfyList","ClassIfyById","ClassIfyAndBlogCount"},allEntries = true)
     public ApiResult<String> insertClassIfy(@RequestBody TbClassifyEntity tbClassifyEntity){
         int count = tbClassifyService.insertClassIfy(tbClassifyEntity);
         if (count>0){

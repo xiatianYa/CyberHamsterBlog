@@ -118,7 +118,7 @@ export default {
             });
             const inSpectBlog = await reqGetEssayById(this.$route.query.blogId)
             //定时保存字符必须大于之前字符数
-            if (this.essay.blogContent.length>=inSpectBlog.data.blogContent.length){
+            if (this.essay.blogContent.length<inSpectBlog.data.blogContent.length){
               this.$message({
                 type: 'error',
                 message: '定时保存失败(请手动保存)!'

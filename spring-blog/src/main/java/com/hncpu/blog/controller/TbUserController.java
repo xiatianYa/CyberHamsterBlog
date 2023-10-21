@@ -12,8 +12,6 @@ import com.hncpu.blog.utils.BlogProperty;
 import com.hncpu.blog.utils.Md5Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -28,7 +26,6 @@ public class TbUserController {
     @Autowired
     private TbUserService tbUserService;
     @SaCheckPermission("user.manager")
-    @Cacheable(cacheNames = "UserListByPage",key = "#pageNum")
     @GetMapping("/{pageNum}/{pageSize}")
     public ApiResult<List<TbUserEntity>> queryAllByPage(@RequestParam(value = "pageNum",defaultValue = "0") int pageNum,
                                     @RequestParam(value = "pageSize",defaultValue = "30") int pageSize){
@@ -81,7 +78,6 @@ public class TbUserController {
     }
     @SaCheckPermission("user.manager")
     @PostMapping("/updateByUserId")
-    @CacheEvict(cacheNames = {"UserListByPage"},allEntries = true)
     public ApiResult<String> updateByUserId(@RequestBody TbUserEntity tbUserEntity){
         try {
             int count = tbUserService.updateByUserId(tbUserEntity);
@@ -95,7 +91,6 @@ public class TbUserController {
     }
     @SaCheckPermission("user.manager")
     @PostMapping("/insertUser")
-    @CacheEvict(cacheNames = {"UserListByPage"},allEntries = true)
     public ApiResult<String> insertUser(@RequestBody TbUserEntity tbUserEntity){
         tbUserEntity.setAvatar(BlogProperty.AVATAR);
         tbUserEntity.setLevel(0);
@@ -111,7 +106,6 @@ public class TbUserController {
     }
     @SaCheckPermission("user.manager")
     @GetMapping("/deleteByUserId/{Id}")
-    @CacheEvict(cacheNames = {"UserListByPage"},allEntries = true)
     public ApiResult<String> deleteByUserId(@PathVariable Integer Id){
         try {
             int count = tbUserService.deleteByUserId(Id);
@@ -125,7 +119,6 @@ public class TbUserController {
     }
     @SaCheckPermission("user.manager")
     @PostMapping("/updateUserPwd")
-    @CacheEvict(cacheNames = {"UserListByPage"},allEntries = true)
     public ApiResult<String> updateUserPwd(@RequestBody TbUserEntity tbUser){
         try {
             tbUser.setLoginPassword(Md5Utils.encryptPassword(tbUser.getLoginUserName(), tbUser.getLoginPassword(), BlogProperty.MD5_SALT));
@@ -140,7 +133,6 @@ public class TbUserController {
     }
     @SaCheckPermission("user.manager")
     @PostMapping("/updateUserLevelAndLocked")
-    @CacheEvict(cacheNames = {"UserListByPage"},allEntries = true)
     public ApiResult<String> updateUserLevelAndLocked(@RequestBody TbUserEntity tbUser){
         try {
             int count = tbUserService.updateUserLevelAndLocked(tbUser);
