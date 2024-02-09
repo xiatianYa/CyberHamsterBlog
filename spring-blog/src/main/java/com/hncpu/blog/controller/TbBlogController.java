@@ -10,6 +10,7 @@ import com.hncpu.blog.service.TbBlogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,13 +46,13 @@ public class TbBlogController {
     }
     // 根据文章Id 查询文章
     @GetMapping("/queryByBlogId/{Id}")
+    @Cacheable(cacheNames = "ByBlogId",key = "#Id")
     public ApiResult<TbBlogDTO> queryBlogByBlogId(@PathVariable Integer Id){
         TbBlogDTO tbBlogDTO = tbBlogService.queryBlogByBlogId(Id);
         return ApiResult.success(tbBlogDTO);
     }
     // 根据标签Id 查询文章列表
     @GetMapping("/byTagsId/{Id}")
-    @Cacheable(cacheNames = "ByTagsId",key = "#Id")
     public ApiResult<List<TbBlogEntity>> queryBlogByTagsId(@PathVariable Integer Id){
         List<TbBlogEntity> tbBlogEntities = tbBlogService.queryBlogByTagsId(Id);
         return ApiResult.success(tbBlogEntities);

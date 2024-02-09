@@ -15,8 +15,7 @@ class BlogApplicationTests {
     public void test(){}
     @Test
     public void testRedis(){
-        redisTemplate.opsForValue().set("1","2");
-        System.out.println(redisTemplate.opsForValue().get("1"));
+        System.out.println("夏天666");
     }
     @Test
     public void testMd5(){

@@ -80,6 +80,7 @@ public class TbClassifyController {
             return ApiResult.msg("添加成功");
         }
         return ApiResult.error("添加失败");
+
     }
     /** 获取各归档文章数量 */
     @SaCheckPermission("user.get")

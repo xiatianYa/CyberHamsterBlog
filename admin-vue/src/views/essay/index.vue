@@ -400,7 +400,6 @@ export default {
     },
     //检查列表是否合规
     inSpectBlog(blog){
-      console.log(blog)
       if (blog.blogTitle == '' || blog.blogClassifyId == undefined || blog.tbTagsEntityList.length ==0 ){
         return true;
       }
