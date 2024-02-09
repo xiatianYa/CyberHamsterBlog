@@ -19,7 +19,7 @@ public class TbMessageController {
     @Autowired
     private TbMessageService tbMessageService;
     @PostMapping
-    @Cacheable(value = "MessageList",key = "#param.pageNum")
+    @Cacheable(value = "MessageList",key = "#param.type")
     public ApiResult<Page> getMessageList(@RequestBody TbMessageQueryParam param){
         return ApiResult.success(tbMessageService.getMessageList(param));
     }

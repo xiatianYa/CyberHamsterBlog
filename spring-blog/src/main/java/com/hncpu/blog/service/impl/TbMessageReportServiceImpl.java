@@ -45,18 +45,19 @@ public class TbMessageReportServiceImpl extends ServiceImpl<TbMessageReportMappe
     @Override
     public void deleteEssayByIds(List<Integer> ids) {
         for (Integer id:ids){
+            //获取删除的元素
             TbMessageReportEntity MessageReport = baseMapper.selectById(id);
             if (MessageReport!=null){
                 LambdaQueryWrapper<TbReplyEntity> wrapper=new LambdaQueryWrapper<>();
                 Integer messageId=MessageReport.getMessageId();
                 Integer reportId=MessageReport.getReportId();
-                baseMapper.deleteById(reportId);
                 wrapper.eq(TbReplyEntity::getMessageId,messageId);
                 List<TbReplyEntity> ReplyList = tbReplyService.list(wrapper);
                 for (TbReplyEntity reply:ReplyList){
                     tbReplyService.removeById(reply.getReplyId());
                 }
                 tbMessageService.removeById(messageId);
+                baseMapper.deleteById(reportId);
             }
         }
     }
